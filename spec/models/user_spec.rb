@@ -31,5 +31,9 @@ RSpec.describe User, type: :model do
     it "can authenticate its own password" do
       expect(user.authenticate("password")).to eq(user)
     end
+
+    it "returns false if incorrect password is passed" do
+      expect(user.authenticate("wordpass")).to be_falsey
+    end
   end
 end
