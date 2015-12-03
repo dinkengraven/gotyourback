@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  let!(:user) { User.new(first_name: "Letha", last_name: "Rutherford") }
+  let!(:user) { User.new(first_name: "Letha", last_name: "Rutherford", username: "augustus") }
 
   it "has a first name" do
     expect(user.first_name).to eq("Letha")
@@ -9,5 +9,9 @@ RSpec.describe User, type: :model do
 
   it "has a last name" do
     expect(user.last_name).to eq("Rutherford")
+  end
+
+  it "has a username" do
+    expect(user.username).to eq("augustus")
   end
 end
