@@ -24,7 +24,12 @@ RSpec.describe User, type: :model do
   end
 
   it "has a password_digest" do
-    # expect(user.authenticate("password")).to eq(user)
     expect(user.password_digest).to be_truthy
+  end
+
+  describe "User#authenticate" do
+    it "can authenticate its own password" do
+      expect(user.authenticate("password")).to eq(user)
+    end
   end
 end
