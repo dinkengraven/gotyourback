@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  let!(:user) { User.new(first_name: "Letha", last_name: "Rutherford", username: "augustus", email: "lrutherford@langworth.net") }
+  let!(:user) { User.new(first_name: "Letha", last_name: "Rutherford", username: "augustus", email: "lrutherford@langworth.net", location: "Yarmouth, ME") }
 
   it "has a first name" do
     expect(user.first_name).to eq("Letha")
@@ -17,5 +17,9 @@ RSpec.describe User, type: :model do
 
   it "has an email address" do
     expect(user.email).to eq("lrutherford@langworth.net")
+  end
+
+  it "has a location" do
+    expect(user.location).to eq("Yarmouth, ME")
   end
 end
