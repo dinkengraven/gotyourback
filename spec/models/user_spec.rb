@@ -32,8 +32,14 @@ RSpec.describe User, type: :model do
       expect(user.authenticate("password")).to eq(user)
     end
 
-    it "returns false if incorrect password is passed" do
+    it "returns false if incorrect password is given" do
       expect(user.authenticate("wordpass")).to be_falsey
+    end
+  end
+
+  describe "User validations" do
+    it "validates format of user's email address" do
+      
     end
   end
 end
