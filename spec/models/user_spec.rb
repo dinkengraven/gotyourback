@@ -38,16 +38,19 @@ RSpec.describe User, type: :model do
   end
 
   describe "User validations" do
+    let!(:user) { User.create(first_name: "Letha", last_name: "Rutherford", username: "augustus", email: "lrutherford@langworth.net", location: "Yarmouth, ME", password: "password") }
+
     it "is invalid without an email address" do
-      user = User.new(first_name: "Alison", last_name: "Anderson", password: "password")
-      user.save
-      expect(user.errors.full_messages).to include("Email can't be blank")
+      user_2 = User.new(first_name: "Alison", last_name: "Anderson", password: "password")
+      user_2.save
+      expect(user_2.errors.full_messages).to include("Email can't be blank")
     end
 
-    # it "is invalid without a unique email address" do
-    #   user_2 = User.new(email: "lrutherford@langworth.net")
-    #   expect(user_2.valid?).
-    # end
+    it "is invalid without a unique email address" do
+      user_2 = user.dup
+      user_2.save
+      expect(user_2.errors.full_messages).to include("Email has already been taken")
+    end
     # it "validates format of user's email address" do
     #
     # end
