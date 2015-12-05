@@ -43,7 +43,7 @@ RSpec.describe User, type: :model do
     it "is invalid without an email address" do
       user_2 = User.new(first_name: "Alison", last_name: "Anderson", username: "aanderson", location: "Marquette, MI", password: "password")
       user_2.save
-      expect(user_2.errors.full_messages).to eq(["Email can't be blank"])
+      expect(user_2.errors.full_messages).to eq(["Email can't be blank", "Email is invalid"])
     end
 
     it "is invalid without a unique email address" do
@@ -81,8 +81,12 @@ RSpec.describe User, type: :model do
       user_2.save
       expect(user_2.errors.full_messages).to eq(["Password can't be blank"])
     end
-    # it "validates format of user's email address" do
-    #
-    # end
+
+    it "validates format of user's email address" do
+      user_2 = User.new(first_name: "Hank", last_name: "Smith", email: "smith_at_email.com", username: "smithy", password: "password", location: "Spokane, WA")
+      user_2.save
+      expect(user_2.errors.full_messages).to eq(["Email is invalid"])
+    end
+
   end
 end
