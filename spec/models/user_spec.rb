@@ -57,6 +57,12 @@ RSpec.describe User, type: :model do
       user_2.save
       expect(user_2.errors.full_messages).to include("First name can't be blank")
     end
+
+    it "is invalid without a last name" do
+      user_2 = User.new(first_name: "Smith", email: "smith@email.com", password: "password", username: "smithy", location: "Spokane, WA")
+      user_2.save
+      expect(user_2.errors.full_messages).to include("Last name can't be blank")
+    end
     # it "validates format of user's email address" do
     #
     # end
