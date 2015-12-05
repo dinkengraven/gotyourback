@@ -41,39 +41,39 @@ RSpec.describe User, type: :model do
     let!(:user) { User.create(first_name: "Letha", last_name: "Rutherford", username: "augustus", email: "lrutherford@langworth.net", location: "Yarmouth, ME", password: "password") }
 
     it "is invalid without an email address" do
-      user_2 = User.new(first_name: "Alison", last_name: "Anderson", password: "password")
+      user_2 = User.new(first_name: "Alison", last_name: "Anderson", username: "aanderson", location: "Marquette, MI", password: "password")
       user_2.save
-      expect(user_2.errors.full_messages).to include("Email can't be blank")
+      expect(user_2.errors.full_messages).to eq(["Email can't be blank"])
     end
 
     it "is invalid without a unique email address" do
       user_2 = user.dup
       user_2.save
-      expect(user_2.errors.full_messages).to include("Email has already been taken")
+      expect(user_2.errors.full_messages).to eq(["Email has already been taken"])
     end
 
     it "is invalid without a first name" do
       user_2 = User.new(last_name: "Smith", email: "smith@email.com", password: "password", username: "smithy", location: "Spokane, WA")
       user_2.save
-      expect(user_2.errors.full_messages).to include("First name can't be blank")
+      expect(user_2.errors.full_messages).to eq(["First name can't be blank"])
     end
 
     it "is invalid without a last name" do
       user_2 = User.new(first_name: "Smith", email: "smith@email.com", password: "password", username: "smithy", location: "Spokane, WA")
       user_2.save
-      expect(user_2.errors.full_messages).to include("Last name can't be blank")
+      expect(user_2.errors.full_messages).to eq(["Last name can't be blank"])
     end
 
     it "is invalid without a username" do
       user_2 = User.new(first_name: "Hank", last_name: "Smith", email: "smith@email.com", password: "password", location: "Spokane, WA")
       user_2.save
-      expect(user_2.errors.full_messages).to include("Username can't be blank")
+      expect(user_2.errors.full_messages).to eq(["Username can't be blank"])
     end
 
     it "is invalid without a location" do
       user_2 = User.new(first_name: "Hank", last_name: "Smith", email: "smith@email.com", password: "password", username: "smithy")
       user_2.save
-      expect(user_2.errors.full_messages).to include("Location can't be blank")
+      expect(user_2.errors.full_messages).to eq(["Location can't be blank"])
     end
     # it "validates format of user's email address" do
     #
