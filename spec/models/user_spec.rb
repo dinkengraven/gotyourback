@@ -40,9 +40,11 @@ RSpec.describe User, type: :model do
   describe "Validations on User" do
     let!(:user) { User.create(first_name: "Letha", last_name: "Rutherford", username: "augustus", email: "lrutherford@langworth.net", location: "Yarmouth, ME", password: "password") }
 
+    let!(:user_2) { user_2 = User.new(first_name: "Alison", last_name: "Anderson", username: "aanderson", email: "ali@example.com", location: "Marquette, MI", password: "password") }
+
     context "email validations" do
       it "is invalid without an email address" do
-        user_2 = User.new(first_name: "Alison", last_name: "Anderson", username: "aanderson", location: "Marquette, MI", password: "password")
+        user_2.email = nil
         user_2.save
         expect(user_2.errors.full_messages).to eq(["Email can't be blank", "Email is invalid"])
       end
