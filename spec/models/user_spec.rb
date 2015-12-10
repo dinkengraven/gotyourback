@@ -105,7 +105,13 @@ RSpec.describe User, type: :model do
       it "is invalid without a password" do
         user_2 = User.new(first_name: "Hank", last_name: "Smith", email: "smith@email.com", username: "smithy", location: "Spokane, WA")
         user_2.save
-        expect(user_2.errors.full_messages).to eq(["Password can't be blank"])
+        expect(user_2.errors.full_messages).to eq(["Password can't be blank", "Password is too short (minimum is 6 characters)"])
+      end
+
+      it "must have a password that is at least 6 characters long" do
+        user_2 = User.new(first_name: "Hank", last_name: "Smith", email: "smith@email.com", username: "smithy", location: "Spokane, WA", password: " ")
+        user_2.save
+        expect(user_2.errors.full_messages).to eq(["Password is too short (minimum is 6 characters)"])
       end
     end
 
