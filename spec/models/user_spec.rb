@@ -100,5 +100,11 @@ RSpec.describe User, type: :model do
       user_2.save
       expect(user_2.errors.full_messages).to eq(["Username is too short (minimum is 4 characters)"])
     end
+
+    it "requires a username that is no more than 12 characters" do
+      user_2 = User.new(first_name: "Laura", last_name: "Smith", email: "smithy@email.com", username: "smith_laura_backpacker", password: "password", location: "Spokane, WA")
+      user_2.save
+      expect(user_2.errors.full_messages).to eq(["Username is too long (maximum is 12 characters)"])
+    end
   end
 end
