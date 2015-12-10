@@ -68,7 +68,7 @@ RSpec.describe User, type: :model do
     it "is invalid without a username" do
       user_2 = User.new(first_name: "Hank", last_name: "Smith", email: "smith@email.com", password: "password", location: "Spokane, WA")
       user_2.save
-      expect(user_2.errors.full_messages).to eq(["Username can't be blank"])
+      expect(user_2.errors.full_messages).to eq(["Username can't be blank", "Username is too short (minimum is 4 characters)"])
     end
 
     it "is invalid without a unique username" do
@@ -95,6 +95,10 @@ RSpec.describe User, type: :model do
       expect(user_2.errors.full_messages).to eq(["Email is invalid"])
     end
 
-    # it "requires a username that is at least"
+    it "requires a username that is at least 4 characters" do
+      user_2 = User.new(first_name: "Laura", last_name: "Smith", email: "smith_at_email.com", username: "smi", password: "password", location: "Spokane, WA")
+      user_2.save
+      p user_2.errors.full_messages
+    end
   end
 end
