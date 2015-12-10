@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  let!(:user) { User.new(first_name: "Letha", last_name: "Rutherford", username: "augustus", email: "lrutherford@langworth.net", location: "Yarmouth, ME", password: "password") }
+  let!(:user) { User.new(first_name: "Letha", last_name: "Rutherford", username: "augustus", email: "lrutherford@langworth.net", location: "Yarmouth, ME", password: "super secure") }
 
   it "has a first name" do
     expect(user.first_name).to eq("Letha")
@@ -29,7 +29,7 @@ RSpec.describe User, type: :model do
 
   describe "User#authenticate" do
     it "can authenticate its own password" do
-      expect(user.authenticate("password")).to eq(user)
+      expect(user.authenticate("super secure")).to eq(user)
     end
 
     it "returns false if incorrect password is given" do
@@ -38,9 +38,9 @@ RSpec.describe User, type: :model do
   end
 
   describe "Validations on User" do
-    let!(:user) { User.create(first_name: "Letha", last_name: "Rutherford", username: "augustus", email: "lrutherford@langworth.net", location: "Yarmouth, ME", password: "password") }
+    let!(:user) { User.create(first_name: "Letha", last_name: "Rutherford", username: "augustus", email: "lrutherford@langworth.net", location: "Yarmouth, ME", password: "super secure") }
 
-    let!(:user_2) { User.new(first_name: "Alison", last_name: "Anderson", username: "aanderson", email: "ali@example.com", location: "Marquette, MI", password: "password") }
+    let!(:user_2) { User.new(first_name: "Alison", last_name: "Anderson", username: "aanderson", email: "ali@example.com", location: "Marquette, MI", password: "super secure") }
 
     context "email validations" do
       it "is invalid without an email address" do
@@ -120,6 +120,12 @@ RSpec.describe User, type: :model do
         user_2.password = "abcdefghijklmnopqrstuvwzy"
         user_2.save
         expect(user_2.errors.full_messages).to eq(["Password is too long (maximum is 24 characters)"])
+      end
+
+      it "cannot be the word 'password'" do
+        user_2.password = "password"
+        user_2.save
+        expect(user_2.errors.full_messages).to eq(["Password cannot be 'password'"])
       end
     end
 
