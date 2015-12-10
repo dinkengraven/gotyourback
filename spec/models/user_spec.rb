@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  let!(:user) { User.new(first_name: "Letha", last_name: "Rutherford", username: "augustus", email: "lrutherford@langworth.net", location: "Yarmouth, ME", password: "password") }
+  let!(:user) { User.new(first_name: "Letha", last_name: "Rutherford", username: "augustus", email: "lrutherford@langworth.net", location: "Yarmouth, ME", password: "super secure") }
 
   it "has a first name" do
     expect(user.first_name).to eq("Letha")
@@ -29,7 +29,7 @@ RSpec.describe User, type: :model do
 
   describe "User#authenticate" do
     it "can authenticate its own password" do
-      expect(user.authenticate("password")).to eq(user)
+      expect(user.authenticate("super secure")).to eq(user)
     end
 
     it "returns false if incorrect password is given" do
@@ -37,55 +37,102 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe "User validations" do
-    let!(:user) { User.create(first_name: "Letha", last_name: "Rutherford", username: "augustus", email: "lrutherford@langworth.net", location: "Yarmouth, ME", password: "password") }
+  describe "Validations on User" do
+    let!(:user) { User.create(first_name: "Letha", last_name: "Rutherford", username: "augustus", email: "lrutherford@langworth.net", location: "Yarmouth, ME", password: "super secure") }
 
-    it "is invalid without an email address" do
-      user_2 = User.new(first_name: "Alison", last_name: "Anderson", username: "aanderson", location: "Marquette, MI", password: "password")
-      user_2.save
-      expect(user_2.errors.full_messages).to eq(["Email can't be blank", "Email is invalid"])
+    let!(:user_2) { User.new(first_name: "Alison", last_name: "Anderson", username: "aanderson", email: "ali@example.com", location: "Marquette, MI", password: "super secure") }
+
+    context "email validations" do
+      it "is invalid without an email address" do
+        user_2.email = nil
+        user_2.save
+        expect(user_2.errors.full_messages).to eq(["Email can't be blank", "Email is invalid"])
+      end
+
+      it "is invalid without a unique email address" do
+        user_copy = user.dup
+        user_copy.username = "janus"
+        user_copy.save
+        expect(user_copy.errors.full_messages).to eq(["Email has already been taken"])
+      end
+
+      it "validates format of user's email address" do
+        user_2.email = "smith_at_email.com"
+        user_2.save
+        expect(user_2.errors.full_messages).to eq(["Email is invalid"])
+      end
     end
 
-    it "is invalid without a unique email address" do
-      user_2 = user.dup
-      user_2.save
-      expect(user_2.errors.full_messages).to eq(["Email has already been taken"])
+    context "first and last name validations" do
+      it "is invalid without a first name" do
+        user_2.first_name = nil
+        user_2.save
+        expect(user_2.errors.full_messages).to eq(["First name can't be blank"])
+      end
+
+      it "is invalid without a last name" do
+        user_2.last_name = nil
+        user_2.save
+        expect(user_2.errors.full_messages).to eq(["Last name can't be blank"])
+      end
     end
 
-    it "is invalid without a first name" do
-      user_2 = User.new(last_name: "Smith", email: "smith@email.com", password: "password", username: "smithy", location: "Spokane, WA")
-      user_2.save
-      expect(user_2.errors.full_messages).to eq(["First name can't be blank"])
+    context "username validations" do
+      it "is invalid without a username" do
+        user_2.username = nil
+        user_2.save
+        expect(user_2.errors.full_messages).to eq(["Username can't be blank", "Username is too short (minimum is 4 characters)"])
+      end
+
+      it "is invalid without a unique username" do
+        user_2.username = "augustus"
+        user_2.save
+        expect(user_2.errors.full_messages).to eq(["Username has already been taken"])
+      end
+
+      it "requires a username that is at least 4 characters" do
+        user_2.username = "smi"
+        user_2.save
+        expect(user_2.errors.full_messages).to eq(["Username is too short (minimum is 4 characters)"])
+      end
+
+      it "requires a username that is no more than 12 characters" do
+        user_2.username = "smith_laura_backpacker"
+        user_2.save
+        expect(user_2.errors.full_messages).to eq(["Username is too long (maximum is 12 characters)"])
+      end
     end
 
-    it "is invalid without a last name" do
-      user_2 = User.new(first_name: "Smith", email: "smith@email.com", password: "password", username: "smithy", location: "Spokane, WA")
-      user_2.save
-      expect(user_2.errors.full_messages).to eq(["Last name can't be blank"])
-    end
+    context "password validations" do
+      it "is invalid without a password" do
+        user_2.password = nil
+        user_2.save
+        expect(user_2.errors.full_messages).to eq(["Password can't be blank"])
+      end
 
-    it "is invalid without a username" do
-      user_2 = User.new(first_name: "Hank", last_name: "Smith", email: "smith@email.com", password: "password", location: "Spokane, WA")
-      user_2.save
-      expect(user_2.errors.full_messages).to eq(["Username can't be blank"])
+      it "must have a password that is at least 6 characters long" do
+        user_2.password = " "
+        user_2.save
+        expect(user_2.errors.full_messages).to eq(["Password is too short (minimum is 6 characters)"])
+      end
+
+      it "must have a password that is less than 25 characters long" do
+        user_2.password = "abcdefghijklmnopqrstuvwzy"
+        user_2.save
+        expect(user_2.errors.full_messages).to eq(["Password is too long (maximum is 24 characters)"])
+      end
+
+      it "cannot be the word 'password'" do
+        user_2.password = "password"
+        user_2.save
+        expect(user_2.errors.full_messages).to eq(["Password cannot be 'password'"])
+      end
     end
 
     it "is invalid without a location" do
-      user_2 = User.new(first_name: "Hank", last_name: "Smith", email: "smith@email.com", password: "password", username: "smithy")
+      user_2.location = nil
       user_2.save
       expect(user_2.errors.full_messages).to eq(["Location can't be blank"])
-    end
-
-    it "is invalid without a password" do
-      user_2 = User.new(first_name: "Hank", last_name: "Smith", email: "smith@email.com", username: "smithy", location: "Spokane, WA")
-      user_2.save
-      expect(user_2.errors.full_messages).to eq(["Password can't be blank"])
-    end
-
-    it "validates format of user's email address" do
-      user_2 = User.new(first_name: "Hank", last_name: "Smith", email: "smith_at_email.com", username: "smithy", password: "password", location: "Spokane, WA")
-      user_2.save
-      expect(user_2.errors.full_messages).to eq(["Email is invalid"])
     end
 
   end
