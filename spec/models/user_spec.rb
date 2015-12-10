@@ -96,9 +96,9 @@ RSpec.describe User, type: :model do
     end
 
     it "requires a username that is at least 4 characters" do
-      user_2 = User.new(first_name: "Laura", last_name: "Smith", email: "smith_at_email.com", username: "smi", password: "password", location: "Spokane, WA")
+      user_2 = User.new(first_name: "Laura", last_name: "Smith", email: "smithy@email.com", username: "smi", password: "password", location: "Spokane, WA")
       user_2.save
-      p user_2.errors.full_messages
+      expect(user_2.errors.full_messages).to eq(["Username is too short (minimum is 4 characters)"])
     end
   end
 end
