@@ -113,6 +113,12 @@ RSpec.describe User, type: :model do
         user_2.save
         expect(user_2.errors.full_messages).to eq(["Password is too short (minimum is 6 characters)"])
       end
+
+      it "must have a password that is less than 25 characters long" do
+        user_2 = User.new(first_name: "Hank", last_name: "Smith", email: "smith@email.com", username: "smithy", location: "Spokane, WA", password: "abcdefghijklmnopqrstuvwzy")
+        user_2.save
+        expect(user_2.errors.full_messages).to eq(["Password is too long (maximum is 24 characters)"])
+      end
     end
 
     it "is invalid without a location" do
