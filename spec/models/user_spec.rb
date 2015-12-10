@@ -40,7 +40,7 @@ RSpec.describe User, type: :model do
   describe "Validations on User" do
     let!(:user) { User.create(first_name: "Letha", last_name: "Rutherford", username: "augustus", email: "lrutherford@langworth.net", location: "Yarmouth, ME", password: "password") }
 
-    let!(:user_2) { user_2 = User.new(first_name: "Alison", last_name: "Anderson", username: "aanderson", email: "ali@example.com", location: "Marquette, MI", password: "password") }
+    let!(:user_2) { User.new(first_name: "Alison", last_name: "Anderson", username: "aanderson", email: "ali@example.com", location: "Marquette, MI", password: "password") }
 
     context "email validations" do
       it "is invalid without an email address" do
@@ -50,14 +50,14 @@ RSpec.describe User, type: :model do
       end
 
       it "is invalid without a unique email address" do
-        user_2 = user.dup
-        user_2.username = "janus"
-        user_2.save
-        expect(user_2.errors.full_messages).to eq(["Email has already been taken"])
+        user_copy = user.dup
+        user_copy.username = "janus"
+        user_copy.save
+        expect(user_copy.errors.full_messages).to eq(["Email has already been taken"])
       end
 
       it "validates format of user's email address" do
-        user_2 = User.new(first_name: "Hank", last_name: "Smith", email: "smith_at_email.com", username: "smithy", password: "password", location: "Spokane, WA")
+        user_2.email = "smith_at_email.com"
         user_2.save
         expect(user_2.errors.full_messages).to eq(["Email is invalid"])
       end
@@ -65,13 +65,13 @@ RSpec.describe User, type: :model do
 
     context "first and last name validations" do
       it "is invalid without a first name" do
-        user_2 = User.new(last_name: "Smith", email: "smith@email.com", password: "password", username: "smithy", location: "Spokane, WA")
+        user_2.first_name = nil
         user_2.save
         expect(user_2.errors.full_messages).to eq(["First name can't be blank"])
       end
 
       it "is invalid without a last name" do
-        user_2 = User.new(first_name: "Smith", email: "smith@email.com", password: "password", username: "smithy", location: "Spokane, WA")
+        user_2.last_name = nil
         user_2.save
         expect(user_2.errors.full_messages).to eq(["Last name can't be blank"])
       end
@@ -79,25 +79,25 @@ RSpec.describe User, type: :model do
 
     context "username validations" do
       it "is invalid without a username" do
-        user_2 = User.new(first_name: "Hank", last_name: "Smith", email: "smith@email.com", password: "password", location: "Spokane, WA")
+        user_2.username = nil
         user_2.save
         expect(user_2.errors.full_messages).to eq(["Username can't be blank", "Username is too short (minimum is 4 characters)"])
       end
 
       it "is invalid without a unique username" do
-        user_2 = User.new(first_name: "Hank", last_name: "Smith", email: "smith@email.com", username: "augustus", password: "password", location: "Spokane, WA")
+        user_2.username = "augustus"
         user_2.save
         expect(user_2.errors.full_messages).to eq(["Username has already been taken"])
       end
 
       it "requires a username that is at least 4 characters" do
-        user_2 = User.new(first_name: "Laura", last_name: "Smith", email: "smithy@email.com", username: "smi", password: "password", location: "Spokane, WA")
+        user_2.username = "smi"
         user_2.save
         expect(user_2.errors.full_messages).to eq(["Username is too short (minimum is 4 characters)"])
       end
 
       it "requires a username that is no more than 12 characters" do
-        user_2 = User.new(first_name: "Laura", last_name: "Smith", email: "smithy@email.com", username: "smith_laura_backpacker", password: "password", location: "Spokane, WA")
+        user_2.username = "smith_laura_backpacker"
         user_2.save
         expect(user_2.errors.full_messages).to eq(["Username is too long (maximum is 12 characters)"])
       end
@@ -105,26 +105,26 @@ RSpec.describe User, type: :model do
 
     context "password validations" do
       it "is invalid without a password" do
-        user_2 = User.new(first_name: "Hank", last_name: "Smith", email: "smith@email.com", username: "smithy", location: "Spokane, WA")
+        user_2.password = nil
         user_2.save
-        expect(user_2.errors.full_messages).to eq(["Password can't be blank", "Password is too short (minimum is 6 characters)"])
+        expect(user_2.errors.full_messages).to eq(["Password can't be blank"])
       end
 
       it "must have a password that is at least 6 characters long" do
-        user_2 = User.new(first_name: "Hank", last_name: "Smith", email: "smith@email.com", username: "smithy", location: "Spokane, WA", password: " ")
+        user_2.password = " "
         user_2.save
         expect(user_2.errors.full_messages).to eq(["Password is too short (minimum is 6 characters)"])
       end
 
       it "must have a password that is less than 25 characters long" do
-        user_2 = User.new(first_name: "Hank", last_name: "Smith", email: "smith@email.com", username: "smithy", location: "Spokane, WA", password: "abcdefghijklmnopqrstuvwzy")
+        user_2.password = "abcdefghijklmnopqrstuvwzy"
         user_2.save
         expect(user_2.errors.full_messages).to eq(["Password is too long (maximum is 24 characters)"])
       end
     end
 
     it "is invalid without a location" do
-      user_2 = User.new(first_name: "Hank", last_name: "Smith", email: "smith@email.com", password: "password", username: "smithy")
+      user_2.location = nil
       user_2.save
       expect(user_2.errors.full_messages).to eq(["Location can't be blank"])
     end
