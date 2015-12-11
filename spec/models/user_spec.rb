@@ -134,6 +134,5 @@ RSpec.describe User, type: :model do
       user_2.save
       expect(user_2.errors.full_messages).to eq(["Location can't be blank"])
     end
-
   end
 end
