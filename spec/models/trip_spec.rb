@@ -40,6 +40,12 @@ RSpec.describe Trip, type: :model do
   end
 
   describe "associations" do
-    
+    let!(:user) { User.create(first_name: "Letha", last_name: "Rutherford", username: "augustus", email: "lrutherford@langworth.net", location: "Yarmouth, ME", password: "super secure") }
+
+    it "belongs to a creator" do
+      trip.save
+      user.created_trips << trip
+      expect(user.created_trips).to eq([trip])
+    end
   end
 end
