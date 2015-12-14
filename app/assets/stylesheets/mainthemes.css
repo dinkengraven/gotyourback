@@ -1,6 +1,8 @@
 .main-header {
   text-align: center;
   background-color: rgb(220, 244, 228);
+  border-left-color: white;
+  border-right-color: white;
 }
 
 .main-title {
@@ -10,5 +12,5 @@
 
 .main-subtitle {
   font-family: 'Dancing Script', cursive;
-  font-size: 1em;
+  font-size: 1.1em;
 }
