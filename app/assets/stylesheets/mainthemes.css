@@ -1,0 +1,14 @@
+.main-header {
+  text-align: center;
+  background-color: rgb(220, 244, 228);
+}
+
+.main-title {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 4em;
+}
+
+.main-subtitle {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1em;
+}
