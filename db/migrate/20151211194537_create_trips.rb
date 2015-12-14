@@ -1,7 +1,7 @@
 class CreateTrips < ActiveRecord::Migration
   def change
     create_table :trips do |t|
-      t.references :creator, index: true, foreign_key: true
+      t.references :user, index: true, foreign_key: true
       t.string :location
       t.integer :duration_in_days
       t.text :route
