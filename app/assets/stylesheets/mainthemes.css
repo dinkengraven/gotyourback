@@ -20,8 +20,14 @@
   font-size: 2.1em;
   font-weight: 400;
   text-align: center;
-  background-color: whitesmoke;
+    background-color: rgb(249, 251, 250);
   color: black;
   border-color: white;
   border-bottom-color: rgb(186, 188, 196);
+  border-radius: 9px;
+}
+
+.main-body {
+  background-color: white;
+  border-color: white;
 }
