@@ -7,7 +7,7 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 5.times do
-  User.create(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.safe_email, username: Faker::Internet.user_name, location: Faker::Address.state, password: "123456")
+  User.create(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.email, username: Faker::Internet.user_name, location: Faker::Address.state, password: "123456")
 end
 
 User.find(1).created_trips.create(location: "Big South Fork, TN", duration_in_days: 7, route: Faker::Lorem.paragraph(4), details: Faker::Lorem.paragraph(3))
