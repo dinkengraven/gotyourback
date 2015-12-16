@@ -144,6 +144,10 @@ RSpec.describe User, type: :model do
         user.created_trips.create(location: "Yellowstone", duration_in_days: "10", route: "Route", details: "Details")
         expect(user.created_trips.count).to eq(1)
       end
+
+      it "has joined trips" do
+
+      end
     end
 
   end
