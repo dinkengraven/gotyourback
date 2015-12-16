@@ -135,4 +135,16 @@ RSpec.describe User, type: :model do
       expect(user_2.errors.full_messages).to eq(["Location can't be blank"])
     end
   end
+
+  describe "associations" do
+    let!(:user) { User.create(first_name: "Letha", last_name: "Rutherford", username: "augustus", email: "lrutherford@langworth.net", location: "Yarmouth, ME", password: "super secure") }
+
+    context "with trips" do
+      it "has created trips" do
+        user.created_trips.create(location: "Yellowstone", duration_in_days: "10", route: "Route", details: "Details")
+        expect(user.created_trips.count).to eq(1)
+      end
+    end
+
+  end
 end
