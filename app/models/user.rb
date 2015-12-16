@@ -3,6 +3,9 @@ class User < ActiveRecord::Base
 
   has_many :created_trips, class_name: "Trip", foreign_key: :creator_id
 
+  has_many :groups
+  has_many :joined_trips, through: :groups, source: :trip
+
   validates :first_name, :last_name, :location, presence: true
   validates :email, { presence: true, uniqueness: true }
   validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, on: :create}
