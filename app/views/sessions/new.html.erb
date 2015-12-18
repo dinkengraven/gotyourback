@@ -1,7 +1,10 @@
 <div class="row">
   <div class="large-12 columns">
+      <% flash.each do |name, msg| %>
+        <%= content_tag :div, msg, class: name %>
+      <% end %>
     <div class="login-window">
-      <p class="login-title">Continue the Adventure</p>
+      <p class="login-title">Continue the adventure</p>
       <%= form_for(:session, url: login_path, method: :post) do |f| %>
         <%= f.label :email %>
         <%= f.email_field :email, class: 'form-control' %>
