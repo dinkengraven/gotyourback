@@ -2,7 +2,7 @@
   <div class="large-12 columns">
     <div class="login-window">
       <p class="login-title">Continue the Adventure</p>
-      <%= form_for(:session, url: login_path) do |f| %>
+      <%= form_for(:session, url: login_path, method: :post) do |f| %>
         <%= f.label :email %>
         <%= f.email_field :email, class: 'form-control' %>
 
