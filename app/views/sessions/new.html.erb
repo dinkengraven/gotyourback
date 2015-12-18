@@ -1,0 +1,16 @@
+<div class="row">
+  <div class="large-12 columns">
+    <div class="login-window">
+      <p class="login-title">Continue the Adventure</p>
+      <%= form_for(:session, url: login_path, method: :post) do |f| %>
+        <%= f.label :email %>
+        <%= f.email_field :email, class: 'form-control' %>
+
+        <%= f.label :password %>
+        <%= f.password_field :password, class: 'form-control' %>
+
+        <%= f.submit "Log in", class: "button success radius expand" %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -6,6 +6,9 @@ Rails.application.routes.draw do
 
   get "/about" => "pages#about"
 
+  get "/login" => "sessions#new"
+  post "/login" => "sessions#create"
+
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
 

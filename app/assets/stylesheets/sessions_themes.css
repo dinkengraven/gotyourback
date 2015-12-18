@@ -1,0 +1,13 @@
+.login-window {
+  margin: auto;
+  margin-top: 3%;
+  width: 45%;
+  padding: 1em;
+  border: 1px solid rgb(213, 213, 213);
+}
+
+.login-title {
+  font-family: Palatino, serif;
+  size: 2em;
+  text-align: center;
+}
