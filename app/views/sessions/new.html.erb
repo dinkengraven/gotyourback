@@ -1,16 +1,24 @@
 <div class="row">
   <div class="large-12 columns">
-    <div class="login-window">
-      <p class="login-title">Continue the Adventure</p>
-      <%= form_for(:session, url: login_path, method: :post) do |f| %>
-        <%= f.label :email %>
-        <%= f.email_field :email, class: 'form-control' %>
-
-        <%= f.label :password %>
-        <%= f.password_field :password, class: 'form-control' %>
-
-        <%= f.submit "Log in", class: "button success radius expand" %>
+      <% flash.each do |name, msg| %>
+        <%= content_tag :div, msg, class: name %>
       <% end %>
+    <div class="login-window">
+      <p class="login-title">Continue the adventure</p>
+      <%= form_for(:session, url: login_path, method: :post) do |f| %>
+        <div class="large-4 columns">
+          <%= f.label :email %>
+          <%= f.email_field :email, class: 'form-control' %>
+        </div>
+        <div class="large-4 columns">
+          <%= f.label :password %>
+          <%= f.password_field :password, class: 'form-control' %>
+        </div>
+        <div class="large-4 columns">
+          <%= f.submit "Log in", class: "button success radius expand" %>
+        </div>
+      <% end %>
+      <p class="login-title">Not a member? <%= link_to "Sign up!", new_user_path %></p>
     </div>
   </div>
 </div>
