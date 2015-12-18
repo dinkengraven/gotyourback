@@ -1,0 +1,31 @@
+<div class="row">
+  <div class="large-12 columns">
+      <% flash.each do |name, msg| %>
+        <%= content_tag :div, msg, class: name %>
+      <% end %>
+    <div class="login-window">
+      <p class="login-title">Join the adventure</p>
+      <%= form_for(:session, url: users_path, method: :post) do |f| %>
+        <%= f.label :first_name %>
+        <%= f.text_field :first_name, class: 'form-control' %>
+
+        <%= f.label :last_name %>
+        <%= f.text_field :last_name, class: 'form-control' %>
+
+        <%= f.label :username %>
+        <%= f.text_field :username, class: 'form-control' %>
+
+        
+
+        <%= f.label :email %>
+        <%= f.email_field :email, class: 'form-control' %>
+
+        <%= f.label :password %>
+        <%= f.password_field :password, class: 'form-control' %>
+
+        <%= f.submit "Register", class: "button success radius expand" %>
+      <% end %>
+      <p class="login-title">Already a member? <%= link_to "Log in!", login_path %></p>
+    </div>
+  </div>
+</div>
